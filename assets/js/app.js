@@ -432,8 +432,9 @@ const App = (() => {
 
   // ── Modal de cotización ─────────────────────────────────────
 
-  function viewQuote(rawJson) {
-    const q = typeof rawJson === "string" ? JSON.parse(rawJson) : rawJson;
+  function viewQuote(idx) {
+    const q = (window.__quoteCache || [])[idx];
+    if (!q) { App.showToast("No se pudo cargar la cotización.", "error"); return; }
     document.getElementById("modal-content").innerHTML =
       QuoteView.renderPrintView(q);
     document.getElementById("quote-modal").classList.remove("hidden");

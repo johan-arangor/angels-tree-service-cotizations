@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ArborQuote — Sistema de Cotizaciones</title>
+  <title>SAGA TREE QUOTE — Sistema de Cotizaciones</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
@@ -24,7 +24,7 @@
           <path d="M32 44C32 44 22 38 24 28C29 30 34 36 32 44Z" fill="currentColor" opacity="0.5"/>
         </svg>
       </div>
-      <h1 class="brand-title">Arbor<em>Quote</em></h1>
+      <h1 class="brand-title">Saga Tree<em>Quote</em></h1>
       <p class="brand-sub">Sistema profesional de cotizaciones para servicios arbóreos</p>
       <div class="brand-stats">
         <div class="stat"><span class="stat-num">5</span><span class="stat-label">Servicios</span></div>
@@ -80,7 +80,7 @@
           <path d="M16 16C16 16 23 14 25 8C21 7 16 11 16 16Z" fill="currentColor"/>
           <path d="M16 22C16 22 11 19 12 14C14.5 15 17 18 16 22Z" fill="currentColor" opacity="0.6"/>
         </svg>
-        <span>ArborQuote</span>
+        <span>SAGA TREE</span>
       </div>
       <nav class="sidebar-nav">
         <button class="nav-item active" data-view="dashboard">
@@ -285,7 +285,12 @@
               <div class="fields-row">
                 <div class="field-group">
                   <label for="q-tarifa">Tarifa por hora ($/hr)</label>
-                  <input type="number" id="q-tarifa" name="tarifa" value="900" min="0" step="50" />
+                  <select id="q-tarifa" name="tarifa" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="800">800</option>
+                    <option value="900">900</option>
+                    <option value="1000">1000</option>
+                  </select>                  
                 </div>
                 <div class="field-group">
                   <label for="q-horas-manual">Horas manuales (opcional)</label>
@@ -332,7 +337,7 @@
                 <span class="block-num">04</span>
                 <h3>Ajustes de Precio</h3>
               </div>
-              <div class="fields-row">
+              <div class="fields-row-pair">
                 <div class="field-group">
                   <label for="q-descuento">Descuento (%)</label>
                   <input type="number" id="q-descuento" name="descuento" value="0" min="0" max="100" step="1" />
@@ -341,9 +346,11 @@
                   <label for="q-impuesto">Impuesto (%)</label>
                   <input type="number" id="q-impuesto" name="impuesto" value="0" min="0" max="100" step="0.5" />
                 </div>
+              </div>
+              <div>               
                 <div class="field-group">
                   <label for="q-notas">Notas internas</label>
-                  <textarea id="q-notas" name="notas" rows="3" placeholder="Observaciones, condiciones especiales..."></textarea>
+                  <textarea id="q-notas" name="notas" rows="6" placeholder="Observaciones, condiciones especiales..."></textarea>
                 </div>
               </div>
             </div>
@@ -397,7 +404,7 @@
             </div>
             <button class="btn-primary sm" onclick="App.navigate('nueva-cotizacion')">
               <svg viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-              Nueva
+              Nueva cotización
             </button>
           </div>
         </header>

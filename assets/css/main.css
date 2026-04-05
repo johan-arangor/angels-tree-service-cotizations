@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   ArborQuote — Main Stylesheet
+   SagaTreeQuote — Main Stylesheet
    Aesthetic: Refined editorial / natural luxury
    ═══════════════════════════════════════════════════════════ */
 
@@ -631,6 +631,12 @@ input.error, select.error { border-color: var(--rose); }
   font-size: 1rem;
   font-weight: 500;
   color: var(--forest);
+}
+
+.fields-row-pair {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 }
 
 .fields-row {
