@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ArborQuote — Sistema de Cotizaciones</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body class="login-page">
+
+  <!-- ═══ LOGIN SCREEN ═══ -->
+  <div id="login-screen" class="screen active">
+    <div class="login-left">
+      <div class="brand-mark">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 58V32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M32 32C32 32 18 28 14 16C22 14 32 22 32 32Z" fill="currentColor" opacity="0.7"/>
+          <path d="M32 32C32 32 46 28 50 16C42 14 32 22 32 32Z" fill="currentColor" opacity="0.9"/>
+          <path d="M32 32C32 32 20 22 22 8C28 10 34 18 32 32Z" fill="currentColor" opacity="0.6"/>
+          <path d="M32 32C32 32 44 22 42 8C36 10 30 18 32 32Z" fill="currentColor" opacity="0.8"/>
+          <path d="M32 44C32 44 22 38 24 28C29 30 34 36 32 44Z" fill="currentColor" opacity="0.5"/>
+        </svg>
+      </div>
+      <h1 class="brand-title">Arbor<em>Quote</em></h1>
+      <p class="brand-sub">Sistema profesional de cotizaciones para servicios arbóreos</p>
+      <div class="brand-stats">
+        <div class="stat"><span class="stat-num">5</span><span class="stat-label">Servicios</span></div>
+        <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Cotizaciones</span></div>
+        <div class="stat"><span class="stat-num">PDF</span><span class="stat-label">Exportación</span></div>
+      </div>
+    </div>
+
+    <div class="login-right">
+      <div class="login-card">
+        <div class="card-header">
+          <h2>Iniciar sesión</h2>
+          <p>Accede a tu panel de cotizaciones</p>
+        </div>
+        <form id="login-form" novalidate>
+          <div class="field-group">
+            <label for="username">Usuario</label>
+            <div class="input-wrap">
+              <svg class="input-icon" viewBox="0 0 20 20" fill="none"><path d="M10 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <input type="text" id="username" name="username" placeholder="tu_usuario" autocomplete="username" required />
+            </div>
+          </div>
+          <div class="field-group">
+            <label for="password">Contraseña</label>
+            <div class="input-wrap">
+              <svg class="input-icon" viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 9V6a3 3 0 0 1 6 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+              <button type="button" class="toggle-pass" aria-label="Mostrar contraseña">
+                <svg viewBox="0 0 20 20" fill="none"><path d="M1 10S4 4 10 4s9 6 9 6-3 6-9 6-9-6-9-6Z" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+              </button>
+            </div>
+          </div>
+          <div id="login-error" class="error-msg hidden"></div>
+          <button type="submit" class="btn-primary" id="login-btn">
+            <span class="btn-text">Ingresar</span>
+            <svg class="btn-icon" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="btn-loader hidden"></span>
+          </button>
+        </form>
+        <p class="login-footer">Acceso restringido · Solo usuarios autorizados</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ APP SCREEN ═══ -->
+  <div id="app-screen" class="screen hidden">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <svg viewBox="0 0 32 32" fill="none" class="sidebar-logo">
+          <path d="M16 28V16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M16 16C16 16 9 14 7 8C11 7 16 11 16 16Z" fill="currentColor" opacity="0.8"/>
+          <path d="M16 16C16 16 23 14 25 8C21 7 16 11 16 16Z" fill="currentColor"/>
+          <path d="M16 22C16 22 11 19 12 14C14.5 15 17 18 16 22Z" fill="currentColor" opacity="0.6"/>
+        </svg>
+        <span>ArborQuote</span>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-view="dashboard">
+          <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="2" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-view="nueva-cotizacion">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>Nueva Cotización</span>
+        </button>
+        <button class="nav-item" data-view="mis-cotizaciones">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M4 6h12M4 10h8M4 14h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>Mis Cotizaciones</span>
+        </button>
+
+        <!-- Solo visible para rol Admin -->
+        <div class="nav-section-label admin-only hidden">Administración</div>
+        <button class="nav-item admin-only hidden" data-view="admin-usuarios">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-6 7a6 6 0 0 1 12 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M14 8h4m-2-2v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>Gestión de Usuarios</span>
+        </button>
+      </nav>
+      <div class="sidebar-user">
+        <div class="user-avatar" id="user-avatar">U</div>
+        <div class="user-info">
+          <span class="user-name" id="user-name">Usuario</span>
+          <span class="user-role" id="user-role">Asesor</span>
+        </div>
+        <button class="logout-btn" id="logout-btn" title="Cerrar sesión">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M13 10H3m10 0-3-3m3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 4H16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- ── Dashboard View ── -->
+      <div id="view-dashboard" class="view active">
+        <header class="view-header">
+          <div>
+            <h2 class="view-title">Dashboard</h2>
+            <p class="view-sub">Resumen de actividad</p>
+          </div>
+          <button class="btn-primary sm" onclick="App.navigate('nueva-cotizacion')">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Nueva Cotización
+          </button>
+        </header>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 0 0 1.946-.806 3.42 3.42 0 0 1 4.438 0 3.42 3.42 0 0 0 1.946.806 3.42 3.42 0 0 1 3.138 3.138 3.42 3.42 0 0 0 .806 1.946 3.42 3.42 0 0 1 0 4.438 3.42 3.42 0 0 0-.806 1.946 3.42 3.42 0 0 1-3.138 3.138 3.42 3.42 0 0 0-1.946.806 3.42 3.42 0 0 1-4.438 0 3.42 3.42 0 0 0-1.946-.806 3.42 3.42 0 0 1-3.138-3.138 3.42 3.42 0 0 0-.806-1.946 3.42 3.42 0 0 1 0-4.438 3.42 3.42 0 0 0 .806-1.946 3.42 3.42 0 0 1 3.138-3.138Z" stroke="currentColor" stroke-width="1.5"/></svg></div>
+            <div><p class="stat-label">Cotizaciones Totales</p><p class="stat-value" id="stat-total">—</p></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon amber"><svg viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div><p class="stat-label">Este mes</p><p class="stat-value" id="stat-mes">—</p></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div><p class="stat-label">Total Facturado</p><p class="stat-value" id="stat-monto">—</p></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon rose"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><p class="stat-label">Promedio por Cotización</p><p class="stat-value" id="stat-promedio">—</p></div>
+          </div>
+        </div>
+        <div class="recent-section">
+          <h3 class="section-title">Cotizaciones Recientes</h3>
+          <div id="recent-list" class="table-wrap">
+            <div class="loading-state">Cargando cotizaciones...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Nueva Cotización View ── -->
+      <div id="view-nueva-cotizacion" class="view hidden">
+        <header class="view-header">
+          <div>
+            <h2 class="view-title">Nueva Cotización</h2>
+            <p class="view-sub">Complete los datos del servicio arbóreo</p>
+          </div>
+        </header>
+        <form id="quote-form" novalidate>
+          <div class="form-grid">
+
+            <!-- Bloque 1: Información del Cliente -->
+            <div class="form-block full-width">
+              <div class="block-header">
+                <span class="block-num">01</span>
+                <h3>Información del Cliente</h3>
+              </div>
+              <div class="fields-row">
+                <div class="field-group">
+                  <label for="q-cliente">Nombre del cliente *</label>
+                  <input type="text" id="q-cliente" name="cliente" placeholder="Empresa o persona natural" required />
+                </div>
+                <div class="field-group">
+                  <label for="q-telefono">Teléfono</label>
+                  <input type="tel" id="q-telefono" name="telefono" placeholder="+1 555 000 0000" />
+                </div>
+                <div class="field-group">
+                  <label for="q-direccion">Dirección del servicio *</label>
+                  <input type="text" id="q-direccion" name="direccion" placeholder="Calle, ciudad, estado" required />
+                </div>
+              </div>
+            </div>
+
+            <!-- Bloque 2: Evaluación del servicio -->
+            <div class="form-block full-width">
+              <div class="block-header">
+                <span class="block-num">02</span>
+                <h3>Evaluación del Servicio</h3>
+              </div>
+              <div class="fields-row four-col">
+                <div class="field-group">
+                  <label for="q-servicio">Tipo de servicio *</label>
+                  <select id="q-servicio" name="servicio" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="Poda de árboles">Poda de árboles</option>
+                    <option value="Limpieza de ramas">Limpieza de ramas</option>
+                    <option value="Corte parcial">Corte parcial</option>
+                    <option value="Remoción completa">Remoción completa</option>
+                    <option value="Emergencia">Emergencia</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="q-espacio">Espacio de trabajo *</label>
+                  <select id="q-espacio" name="espacio" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="Amplio">Amplio</option>
+                    <option value="Medio">Medio</option>
+                    <option value="Reducido">Reducido</option>
+                    <option value="Crítico">Crítico</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="q-cables">Cables eléctricos *</label>
+                  <select id="q-cables" name="cables" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="No">No</option>
+                    <option value="Sí, a distancia segura">Sí, a distancia segura</option>
+                    <option value="Sí, muy cerca">Sí, muy cerca</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="q-objetos">Objetos cercanos *</label>
+                  <select id="q-objetos" name="objetos" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="No">No</option>
+                    <option value="Algunos">Algunos</option>
+                    <option value="Muchos / críticos">Muchos / críticos</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="q-acceso">Acceso *</label>
+                  <select id="q-acceso" name="acceso" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="Fácil">Fácil</option>
+                    <option value="Moderado">Moderado</option>
+                    <option value="Difícil">Difícil</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="q-altura">Altura del árbol *</label>
+                  <select id="q-altura" name="altura" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="0–20 ft">0–20 ft</option>
+                    <option value="20–40 ft">20–40 ft</option>
+                    <option value="40–70 ft">40–70 ft</option>
+                    <option value="+70 ft">+70 ft</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="q-diametro">Diámetro del tronco *</label>
+                  <select id="q-diametro" name="diametro" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="Delgado">Delgado</option>
+                    <option value="Medio">Medio</option>
+                    <option value="Grueso">Grueso</option>
+                    <option value="Muy grueso">Muy grueso</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="q-riesgo">Nivel de riesgo *</label>
+                  <select id="q-riesgo" name="riesgo" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="Bajo">Bajo</option>
+                    <option value="Medio">Medio</option>
+                    <option value="Alto">Alto</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bloque 3: Tarifa y Adicionales -->
+            <div class="form-block full-width">
+              <div class="block-header">
+                <span class="block-num">03</span>
+                <h3>Tarifa y Servicios Adicionales</h3>
+              </div>
+              <div class="fields-row">
+                <div class="field-group">
+                  <label for="q-tarifa">Tarifa por hora ($/hr)</label>
+                  <input type="number" id="q-tarifa" name="tarifa" value="900" min="0" step="50" />
+                </div>
+                <div class="field-group">
+                  <label for="q-horas-manual">Horas manuales (opcional)</label>
+                  <input type="number" id="q-horas-manual" name="horas_manual" placeholder="Auto-calculado" min="0" step="0.5" />
+                </div>
+              </div>
+
+              <!-- Adicionales -->
+              <div class="adicionales-section">
+                <p class="adicionales-label">Servicios adicionales</p>
+                <div class="adicionales-grid" id="adicionales-grid">
+                  <label class="check-item">
+                    <input type="checkbox" name="adicional" value="Stump removal" data-monto="500" />
+                    <span class="check-box"></span>
+                    <span>Stump removal <em>+$500</em></span>
+                  </label>
+                  <label class="check-item">
+                    <input type="checkbox" name="adicional" value="Stump grinding" data-monto="750" />
+                    <span class="check-box"></span>
+                    <span>Stump grinding <em>+$750</em></span>
+                  </label>
+                  <label class="check-item">
+                    <input type="checkbox" name="adicional" value="Limpieza total" data-monto="250" />
+                    <span class="check-box"></span>
+                    <span>Limpieza total <em>+$250</em></span>
+                  </label>
+                  <label class="check-item">
+                    <input type="checkbox" name="adicional" value="Transporte de residuos" data-monto="300" />
+                    <span class="check-box"></span>
+                    <span>Transporte de residuos <em>+$300</em></span>
+                  </label>
+                  <label class="check-item">
+                    <input type="checkbox" name="adicional" value="Trabajo de emergencia" data-monto="1000" />
+                    <span class="check-box"></span>
+                    <span>Trabajo de emergencia <em>+$1,000</em></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bloque 4: Ajustes de Precio -->
+            <div class="form-block half-width">
+              <div class="block-header">
+                <span class="block-num">04</span>
+                <h3>Ajustes de Precio</h3>
+              </div>
+              <div class="fields-row">
+                <div class="field-group">
+                  <label for="q-descuento">Descuento (%)</label>
+                  <input type="number" id="q-descuento" name="descuento" value="0" min="0" max="100" step="1" />
+                </div>
+                <div class="field-group">
+                  <label for="q-impuesto">Impuesto (%)</label>
+                  <input type="number" id="q-impuesto" name="impuesto" value="0" min="0" max="100" step="0.5" />
+                </div>
+                <div class="field-group">
+                  <label for="q-notas">Notas internas</label>
+                  <textarea id="q-notas" name="notas" rows="3" placeholder="Observaciones, condiciones especiales..."></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bloque 5: Resumen de precio -->
+            <div class="form-block half-width price-summary-block">
+              <div class="block-header">
+                <span class="block-num">05</span>
+                <h3>Resumen de Precio</h3>
+              </div>
+              <div class="price-summary" id="price-summary">
+                <div class="price-row"><span>Horas estimadas</span><span id="sum-horas">—</span></div>
+                <div class="price-row"><span>Subtotal (labor)</span><span id="sum-subtotal">$0</span></div>
+                <div class="price-row"><span>Adicionales</span><span id="sum-adicionales">$0</span></div>
+                <div class="price-row discount"><span>Descuento</span><span id="sum-descuento">—</span></div>
+                <div class="price-row tax"><span>Impuesto</span><span id="sum-impuesto">—</span></div>
+                <div class="price-divider"></div>
+                <div class="price-row total"><span>TOTAL</span><span id="sum-total">$0</span></div>
+                <div class="price-range">
+                  <span>Rango sugerido:</span>
+                  <span id="sum-rango">$800–$1,000 / hr</span>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /form-grid -->
+
+          <div id="quote-error" class="error-msg hidden"></div>
+          <div class="form-actions">
+            <button type="button" class="btn-secondary" onclick="App.navigate('mis-cotizaciones')">Cancelar</button>
+            <button type="submit" class="btn-primary" id="quote-btn">
+              <span class="btn-text">Guardar Cotización</span>
+              <svg class="btn-icon" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="btn-loader hidden"></span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ── Mis Cotizaciones View ── -->
+      <div id="view-mis-cotizaciones" class="view hidden">
+        <header class="view-header">
+          <div>
+            <h2 class="view-title">Mis Cotizaciones</h2>
+            <p class="view-sub">Historial completo de cotizaciones</p>
+          </div>
+          <div class="header-actions">
+            <div class="search-wrap">
+              <svg viewBox="0 0 20 20" fill="none"><circle cx="8.5" cy="8.5" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M15 15l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <input type="search" id="search-quotes" placeholder="Buscar cliente..." />
+            </div>
+            <button class="btn-primary sm" onclick="App.navigate('nueva-cotizacion')">
+              <svg viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Nueva
+            </button>
+          </div>
+        </header>
+        <div id="quotes-list" class="table-wrap">
+          <div class="loading-state">Cargando cotizaciones...</div>
+        </div>
+      </div>
+
+      <!-- ── Admin: Gestión de Usuarios (solo Admin) ── -->
+      <div id="view-admin-usuarios" class="view hidden">
+        <header class="view-header">
+          <div>
+            <h2 class="view-title">Gestión de Usuarios</h2>
+            <p class="view-sub">Crea y administra accesos al sistema</p>
+          </div>
+          <span class="admin-badge">
+            <svg viewBox="0 0 16 16" fill="none" width="13" height="13"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7L8 1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+            Solo Admin
+          </span>
+        </header>
+
+        <!-- Generador de usuarios -->
+        <div class="admin-grid">
+
+          <!-- Panel izquierdo: Crear usuario -->
+          <div class="form-block">
+            <div class="block-header">
+              <span class="block-num">01</span>
+              <h3>Crear usuario</h3>
+            </div>
+
+            <div class="field-group">
+              <label for="a-user">Nombre de usuario *</label>
+              <input type="text" id="a-user" placeholder="ej: vendedor1" autocomplete="off" />
+            </div>
+            <div class="field-group">
+              <label for="a-pass">Contraseña *</label>
+              <div class="input-wrap">
+                <svg class="input-icon" viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M7 9V6a3 3 0 0 1 6 0v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <input type="password" id="a-pass" placeholder="Mínimo 6 caracteres" autocomplete="new-password" />
+                <button type="button" class="toggle-pass" onclick="AdminPanel.togglePass()" aria-label="Mostrar contraseña">
+                  <svg viewBox="0 0 20 20" fill="none"><path d="M1 10S4 4 10 4s9 6 9 6-3 6-9 6-9-6-9-6Z" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="field-group">
+              <label for="a-rol">Rol *</label>
+              <select id="a-rol">
+                <option value="Vendedor">Vendedor</option>
+                <option value="Supervisor">Supervisor</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+
+            <div id="admin-error" class="error-msg hidden"></div>
+            <div id="admin-success" class="success-msg hidden"></div>
+
+            <button class="btn-primary" id="admin-gen-btn" onclick="AdminPanel.generate()">
+              <span class="btn-text">Generar hash y fila</span>
+              <svg class="btn-icon" viewBox="0 0 20 20" fill="none"><path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="btn-loader hidden"></span>
+            </button>
+          </div>
+
+          <!-- Panel derecho: Resultado -->
+          <div class="form-block">
+            <div class="block-header">
+              <span class="block-num">02</span>
+              <h3>Datos para Google Sheets</h3>
+            </div>
+
+            <div id="admin-result-empty" class="admin-placeholder">
+              <svg viewBox="0 0 48 48" fill="none" width="40" height="40">
+                <rect x="8" y="12" width="32" height="26" rx="3" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+                <path d="M16 20h16M16 26h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+                <circle cx="36" cy="12" r="7" fill="var(--fern)" opacity=".15"/>
+                <path d="M33 12h6M36 9v6" stroke="var(--fern)" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              <p>Completa el formulario y haz clic en "Generar hash y fila" para ver el resultado aquí.</p>
+            </div>
+
+            <div id="admin-result-content" class="hidden">
+              <!-- Hash -->
+              <div class="result-field">
+                <div class="result-label">
+                  <span>SHA-256 de la contraseña</span>
+                  <button class="copy-small" onclick="AdminPanel.copy('a-hash-val', this)">Copiar</button>
+                </div>
+                <div class="hash-display" id="a-hash-val"></div>
+              </div>
+
+              <!-- Fila completa -->
+              <div class="result-field" style="margin-top: 1rem;">
+                <div class="result-label">
+                  <span>Fila para pegar en la hoja <code>Usuarios</code></span>
+                  <button class="copy-small" onclick="AdminPanel.copy('a-row-val', this)">Copiar fila</button>
+                </div>
+                <div class="row-display" id="a-row-val"></div>
+              </div>
+
+              <!-- Instrucción -->
+              <div class="admin-hint">
+                <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.2"/><path d="M8 7v5M8 5v.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+                <span>En Google Sheets → hoja <strong>Usuarios</strong> → celda A vacía → pega con <kbd>Ctrl+Shift+V</kbd> → <em>Datos → Dividir texto en columnas</em> (separador: tabulación).</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel inferior: Guía de columnas -->
+          <div class="form-block full-width">
+            <div class="block-header">
+              <span class="block-num">03</span>
+              <h3>Estructura de la hoja Usuarios</h3>
+            </div>
+            <div style="overflow-x: auto;">
+              <table class="schema-table">
+                <thead>
+                  <tr>
+                    <th>Columna</th>
+                    <th>Campo</th>
+                    <th>Ejemplo</th>
+                    <th>Notas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>A</code></td><td>ID</td><td>1, 2, 3…</td><td>Número secuencial. Puedes usar la fila generada o asignar uno manualmente.</td></tr>
+                  <tr><td><code>B</code></td><td>Usuario</td><td>vendedor1</td><td>Sin espacios, sin tildes. Es case-insensitive en el login.</td></tr>
+                  <tr><td><code>C</code></td><td>PasswordHash</td><td>240be518fa…</td><td>SHA-256 generado aquí. <strong>Nunca</strong> escribas la contraseña en texto plano.</td></tr>
+                  <tr><td><code>D</code></td><td>Rol</td><td>Vendedor / Admin / Supervisor</td><td>El rol <strong>Admin</strong> habilita este panel de gestión.</td></tr>
+                  <tr><td><code>E</code></td><td>FechaCreacion</td><td>2025-06-01</td><td>Formato YYYY-MM-DD. Solo referencia, no afecta el login.</td></tr>
+                  <tr><td><code>F</code></td><td>Estado</td><td>Activo / Inactivo</td><td>Debe decir exactamente <code>Activo</code> para permitir el acceso.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="admin-hint" style="margin-top: 1rem;">
+              <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7L8 1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+              <span>Para <strong>desactivar</strong> un usuario sin borrarlo, cambia su columna F de <code>Activo</code> a <code>Inactivo</code>. El sistema rechazará el login de inmediato.</span>
+            </div>
+          </div>
+
+        </div><!-- /admin-grid -->
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ═══ MODAL: Vista de Cotización ═══ -->
+  <div id="quote-modal" class="modal-overlay hidden">
+    <div class="modal-box" id="quote-print-area">
+      <div class="modal-actions no-print">
+        <button class="btn-secondary sm" onclick="App.closeModal()">Cerrar</button>
+        <button class="btn-primary sm" onclick="window.print()">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M5 8V3h10v5M5 15H3a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1h-2M5 12h10v5H5v-5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Imprimir / PDF
+        </button>
+      </div>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/calculator.js"></script>
+  <script src="assets/js/quotes.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
